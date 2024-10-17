@@ -61,6 +61,40 @@ namespace FinancialManagementSystem1.Data
                 .HasForeignKey(r => r.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // Configurar decimal con precisión y escala para evitar truncamientos.
+
+            // Entidad Budget
+            modelBuilder.Entity<Budget>()
+                .Property(b => b.AmountSpent)
+                .HasPrecision(18, 2); // Por ejemplo, 18 dígitos en total y 2 después del punto decimal.
+
+            modelBuilder.Entity<Budget>()
+                .Property(b => b.TotalAmount)
+                .HasPrecision(18, 2);
+
+            // Entidad Expense
+            modelBuilder.Entity<Expense>()
+                .Property(e => e.Amount)
+                .HasPrecision(18, 2);
+
+            // Entidad Income
+            modelBuilder.Entity<Income>()
+                .Property(i => i.Amount)
+                .HasPrecision(18, 2);
+
+            // Entidad Report
+            modelBuilder.Entity<Report>()
+                .Property(r => r.NetProfit)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Report>()
+                .Property(r => r.TotalExpenses)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Report>()
+                .Property(r => r.TotalIncome)
+                .HasPrecision(18, 2);
+
             base.OnModelCreating(modelBuilder);
         }
     }

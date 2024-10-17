@@ -1,8 +1,18 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Bienvenido a la Aplicación de Gestión Financiera";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container text-center">
+    <h1>@ViewData["Title"]</h1>
+    <p>Bienvenido a nuestra aplicación de gestión financiera. Aquí puedes gestionar tus ingresos, gastos y hacer análisis detallados de tu presupuesto.</p>
+
+    <div class="btn-group my-4" role="group" aria-label="Acciones de la Aplicación">
+        <a class="btn btn-primary" href="@Url.Action("Login", "Home")">Iniciar Sesión</a>
+        <a class="btn btn-secondary" href="@Url.Action("About", "Home")">Acerca de</a>
+        <a class="btn btn-secondary" href="@Url.Action("Contact", "Home")">Contacto</a>
+    </div>
+
+    <div class="my-5">
+        <a class="btn btn-lg btn-success" href="@Url.Action("Register", "Home")">Registrarse</a>
+    </div>
 </div>
