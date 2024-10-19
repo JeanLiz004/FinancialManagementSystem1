@@ -1,4 +1,6 @@
 using FinancialManagementSystem1.Data;
+using FinancialManagementSystem1.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
@@ -22,6 +24,9 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true; // Marcar la cookie como esencial
 });
 
+// Dentro del bloque de servicios en Program.cs
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -33,11 +38,13 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+
+app.UseSession(); // Middleware de sesión
+app.UseAuthentication(); // Middleware de autenticación
 app.UseAuthorization();
 
 
-// Habilitar el uso de sesiones
-app.UseSession(); // Añadir este middleware antes de los endpoints
+
 
 app.MapControllerRoute(
     name: "default",

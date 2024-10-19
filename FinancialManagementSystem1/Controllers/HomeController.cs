@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Identity; // Para encriptar la contraseña
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http; // Para manejar la sesión
+using System.Security.Cryptography;
+using System.Text;
 
 namespace FinancialManagementSystem1.Controllers
 {
@@ -34,6 +36,37 @@ namespace FinancialManagementSystem1.Controllers
         {
             return View();
         }
+
+        // POST: Login
+        [HttpPost]
+        public IActionResult Login(string username, string password)
+        {
+            // Buscar el usuario por su nombre de usuario
+            var user = _context.Users.FirstOrDefault(u => u.Username == username);
+
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "Nombre de usuario o contraseña incorrectos.");
+                return View();
+            }
+
+            // Verificar la contraseña utilizando el PasswordHasher
+            var passwordVerificationResult = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
+
+            if (passwordVerificationResult == PasswordVerificationResult.Failed)
+            {
+                ModelState.AddModelError(string.Empty, "Nombre de usuario o contraseña incorrectos.");
+                return View();
+            }
+
+            // Guardar el UserId en la sesión
+            HttpContext.Session.SetString("UserId", user.Id.ToString());
+            HttpContext.Session.SetString("Username", user.Username);
+
+            // Redirigir al perfil del usuario
+            return RedirectToAction("Profile", new { id = user.Id });
+        }
+
 
         [HttpGet]
         public IActionResult About()
@@ -101,6 +134,18 @@ namespace FinancialManagementSystem1.Controllers
             }
 
             return View(user);
+        }
+
+        // Método para verificar la contraseña (deberías tener la lógica de encriptación)
+        private bool VerifyPasswordHash(string password, string storedHash)
+        {
+            // Lógica de comparación de hash de la contraseña
+            using (var sha256 = SHA256.Create())
+            {
+                var computedHash = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                var computedHashString = Convert.ToBase64String(computedHash);
+                return storedHash == computedHashString;
+            }
         }
 
         [HttpPost]

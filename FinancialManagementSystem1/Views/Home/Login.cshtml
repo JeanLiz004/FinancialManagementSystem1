@@ -4,7 +4,15 @@
 
 <div class="container">
     <h2>Iniciar Sesión</h2>
-    <form>
-        <!-- Aquí pondrás tu formulario de login -->
+    <form asp-action="Login" method="post">
+        <div class="form-group">
+            <label for="Username">Nombre de Usuario</label>
+            <input type="text" class="form-control" id="Username" name="Username" required>
+        </div>
+        <div class="form-group">
+            <label for="Password">Contraseña</label>
+            <input type="password" class="form-control" id="Password" name="Password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Ingresar</button>
     </form>
 </div>
