@@ -1,0 +1,35 @@
+﻿@model IEnumerable<FinancialManagementSystem1.Models.Expense>
+
+<h2>Tus Gastos</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Descripción</th>
+            <th>Monto</th>
+            <th>Fecha</th>
+            <th>Categoría</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var expense in Model)
+        {
+            <tr>
+                <td>@expense.Description</td>
+                <td>@expense.Amount</td>
+                <td>@expense.Date.ToShortDateString()</td>
+                <td>@expense.Category.Name</td>
+                <td>
+                    <a asp-action="EditExpense" asp-route-id="@expense.Id" class="btn btn-primary">Editar</a>
+                    <form asp-action="DeleteExpense" method="post" class="d-inline">
+                        <input type="hidden" name="id" value="@expense.Id" />
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="CreateExpense" class="btn btn-success">Agregar Gasto</a>

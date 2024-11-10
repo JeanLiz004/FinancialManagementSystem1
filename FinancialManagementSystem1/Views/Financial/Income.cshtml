@@ -1,0 +1,29 @@
+﻿@model IEnumerable<FinancialManagementSystem1.Models.Income>
+
+<h2>Mis Ingresos</h2>
+<a class="btn btn-primary" asp-controller="Financial" asp-action="CreateIncome">Agregar Nuevo Ingreso</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Fuente</th>
+            <th>Monto</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var income in Model)
+        {
+            <tr>
+                <td>@income.Source</td>
+                <td>@income.Amount</td>
+                <td>@income.Date.ToString("dd/MM/yyyy")</td>
+                <td>
+                    <a asp-action="EditIncome" asp-route-id="@income.Id" class="btn btn-warning">Editar</a>
+                    <a asp-action="DeleteIncome" asp-route-id="@income.Id" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

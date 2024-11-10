@@ -1,0 +1,21 @@
+﻿@model FinancialManagementSystem1.Models.Report
+
+@{
+    ViewData["Title"] = "Eliminar Reporte";
+}
+
+<h2>¿Estás seguro de que deseas eliminar este reporte?</h2>
+
+<div>
+    <p>Fecha: @Model.ReportDate.ToString("dd/MM/yyyy")</p>
+    <p>Monto: @Model.TotalIncome</p>
+    <p>Monto: @Model.TotalExpenses</p>
+    <p>Monto: @Model.NetProfit</p>
+    
+
+    <form asp-action="DeleteReportConfirmed" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a class="btn btn-secondary" asp-action="Report">Cancelar</a>
+    </form>
+</div>

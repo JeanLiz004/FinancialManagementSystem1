@@ -1,0 +1,30 @@
+﻿@model FinancialManagementSystem1.Models.Income
+
+@{
+    ViewData["Title"] = "Editar Ingreso";
+}
+
+<h2>Editar Ingreso</h2>
+
+<form asp-action="EditIncome" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="Source" class="control-label"></label>
+        <input asp-for="Source" class="form-control" />
+        <span asp-validation-for="Source" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Amount" class="control-label"></label>
+        <input asp-for="Amount" class="form-control" />
+        <span asp-validation-for="Amount" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Date" class="control-label"></label>
+        <input asp-for="Date" class="form-control" type="date" />
+        <span asp-validation-for="Date" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <a class="btn btn-secondary" asp-action="Income">Cancelar</a>
+    </div>
+</form>

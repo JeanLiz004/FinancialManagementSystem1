@@ -1,0 +1,43 @@
+﻿@model FinancialManagementSystem1.Models.Budget
+
+@{
+    ViewData["Title"] = "Editar Presupuesto";
+}
+
+<h2>Editar Presupuesto</h2>
+
+<form asp-action="EditBudget" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label for="Name">Nombre del Presupuesto</label>
+        <input type="text" class="form-control" id="Name" name="Name" value="@Model.Name" required />
+    </div>
+
+    <div class="form-group">
+        <label for="TotalAmount">Monto Total</label>
+        <input type="number" class="form-control" id="TotalAmount" name="TotalAmount"
+               value="@Model.TotalAmount.ToString("F2")" required />
+    </div>
+
+    <div class="form-group">
+        <label for="AmountSpent">Monto Gastado</label>
+        <input type="number" class="form-control" id="AmountSpent" name="AmountSpent"
+               value="@Model.AmountSpent.ToString("F2")" required />
+    </div>
+
+    <div class="form-group">
+        <label for="StartDate">Fecha de Inicio</label>
+        <input type="date" class="form-control" id="StartDate" name="StartDate"
+               value="@Model.StartDate.ToString("yyyy-MM-dd")" required />
+    </div>
+
+    <div class="form-group">
+        <label for="EndDate">Fecha de Fin</label>
+        <input type="date" class="form-control" id="EndDate" name="EndDate"
+               value="@Model.EndDate.ToString("yyyy-MM-dd")" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    <a asp-action="Budget" class="btn btn-secondary">Cancelar</a>
+</form>

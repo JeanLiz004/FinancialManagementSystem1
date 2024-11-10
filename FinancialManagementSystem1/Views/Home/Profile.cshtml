@@ -4,12 +4,32 @@
     ViewData["Title"] = "Perfil de Usuario";
 }
 
+@{
+    var userId = Context.Session.GetString("UserId");
+}
+@if (userId != null)
+{
+    <div class="alert alert-success">
+        ¡Usuario logueado con ID: @userId!
+    </div>
+}
+else
+{
+    <div class="alert alert-danger">
+        Usuario no está logueado.
+    </div>
+}
+
 <div class="container">
     <h2>Bienvenido, @Model.Username</h2>
     <p>Email: @Model.Email</p>
 
+    <!-- Mostrar total de ingresos y gastos -->
+    <p><strong>Total de Ingresos:</strong> @ViewData["TotalIncome"]</p>
+    <p><strong>Total de Gastos:</strong> @ViewData["TotalExpenses"]</p>
+
     <div class="btn-group" role="group">
-        <a class="btn btn-primary" href="@Url.Action("Income", "Financial")">Ingresos</a>
+        <a class="btn btn-primary" asp-controller="Financial" asp-action="Income">Ingresos</a>
         <a class="btn btn-primary" href="@Url.Action("Expense", "Financial")">Gastos</a>
         <a class="btn btn-primary" href="@Url.Action("Budget", "Financial")">Presupuesto</a>
         <a class="btn btn-primary" href="@Url.Action("Report", "Financial")">Reporte</a>

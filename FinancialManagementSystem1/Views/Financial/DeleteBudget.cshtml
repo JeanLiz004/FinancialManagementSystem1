@@ -1,0 +1,15 @@
+﻿@model FinancialManagementSystem1.Models.Budget
+
+@{
+    ViewData["Title"] = "Eliminar Presupuesto";
+}
+
+<h2>Eliminar Presupuesto</h2>
+
+<p>¿Estás seguro de que deseas eliminar el presupuesto "@Model.Name"?</p>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a asp-action="Budget" class="btn btn-secondary">Cancelar</a>
+</form>

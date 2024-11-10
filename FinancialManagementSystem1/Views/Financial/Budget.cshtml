@@ -1,0 +1,38 @@
+﻿@model IEnumerable<FinancialManagementSystem1.Models.Budget>
+
+@{
+    ViewData["Title"] = "Presupuestos";
+}
+
+<h2>Presupuestos</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Monto Total</th>
+            <th>Monto Gastado</th>
+            <th>Fecha de Inicio</th>
+            <th>Fecha de Fin</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var budget in Model)
+        {
+            <tr>
+                <td>@budget.Name</td>
+                <td>@budget.TotalAmount.ToString("F2")</td>  <!-- Solo el valor numérico -->
+                <td>@budget.AmountSpent.ToString("F2")</td>  <!-- Solo el valor numérico -->
+                <td>@budget.StartDate.ToShortDateString()</td>
+                <td>@budget.EndDate.ToShortDateString()</td>
+                <td>
+                    <a asp-action="EditBudget" asp-route-id="@budget.Id" class="btn btn-warning">Editar</a>
+                    <a asp-action="DeleteBudget" asp-route-id="@budget.Id" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="CreateBudget" class="btn btn-primary">Crear Nuevo Presupuesto</a>

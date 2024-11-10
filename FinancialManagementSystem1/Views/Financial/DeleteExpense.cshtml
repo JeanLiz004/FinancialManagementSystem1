@@ -1,0 +1,30 @@
+﻿@model FinancialManagementSystem1.Models.Expense
+
+@{
+    ViewData["Title"] = "Eliminar Gasto";
+}
+
+<h2>Eliminar Gasto</h2>
+
+<p>¿Estás seguro de que deseas eliminar este gasto?</p>
+
+<div>
+    <h4>@Model.Description</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Monto</dt>
+        <dd>@Model.Amount.ToString("C")</dd>
+
+        <dt>Fecha</dt>
+        <dd>@Model.Date.ToShortDateString()</dd>
+
+        <dt>Categoría</dt>
+        <dd>@Model.Category.Name</dd>
+    </dl>
+
+    <form asp-action="DeleteExpense">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a asp-action="Expense" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

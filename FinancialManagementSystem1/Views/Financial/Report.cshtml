@@ -1,0 +1,36 @@
+﻿@model IEnumerable<FinancialManagementSystem1.Models.Report>
+
+@{
+    ViewData["Title"] = "Reportes";
+}
+
+<h2>Reportes</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Fecha de Reporte</th>
+            <th>Total Ingresos</th>
+            <th>Total Gastos</th>
+            <th>Beneficio Neto</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var report in Model)
+        {
+            <tr>
+                <td>@report.ReportDate.ToShortDateString()</td>
+                <td>@report.TotalIncome.ToString("F2")</td>
+                <td>@report.TotalExpenses.ToString("F2")</td>
+                <td>@report.NetProfit.ToString("F2")</td>
+                <td>
+                    <a asp-action="EditReport" asp-route-id="@report.Id" class="btn btn-warning">Editar</a>
+                    <a asp-action="DeleteReport" asp-route-id="@report.Id" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="CreateReport" class="btn btn-primary">Crear Nuevo Reporte</a>

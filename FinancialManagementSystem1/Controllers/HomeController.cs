@@ -41,7 +41,6 @@ namespace FinancialManagementSystem1.Controllers
         [HttpPost]
         public IActionResult Login(string username, string password)
         {
-            // Buscar el usuario por su nombre de usuario
             var user = _context.Users.FirstOrDefault(u => u.Username == username);
 
             if (user == null)
@@ -50,7 +49,6 @@ namespace FinancialManagementSystem1.Controllers
                 return View();
             }
 
-            // Verificar la contraseña utilizando el PasswordHasher
             var passwordVerificationResult = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
 
             if (passwordVerificationResult == PasswordVerificationResult.Failed)
@@ -59,11 +57,13 @@ namespace FinancialManagementSystem1.Controllers
                 return View();
             }
 
+            // Verificar si la sesión se guarda correctamente
+            Console.WriteLine("Iniciando sesión para usuario: " + user.Id);
+
             // Guardar el UserId en la sesión
             HttpContext.Session.SetString("UserId", user.Id.ToString());
             HttpContext.Session.SetString("Username", user.Username);
 
-            // Redirigir al perfil del usuario
             return RedirectToAction("Profile", new { id = user.Id });
         }
 
@@ -125,6 +125,8 @@ namespace FinancialManagementSystem1.Controllers
             return RedirectToAction("Profile", new { id = user.Id });
         }
 
+
+        [HttpGet]
         public IActionResult Profile(int id)
         {
             var user = _context.Users.FirstOrDefault(u => u.Id == id);
@@ -132,6 +134,19 @@ namespace FinancialManagementSystem1.Controllers
             {
                 return NotFound();
             }
+
+            // Calcular el total de ingresos y gastos del usuario
+            var totalIncome = _context.Incomes
+                .Where(i => i.UserId == id)
+                .Sum(i => i.Amount);
+
+            var totalExpenses = _context.Expenses
+                .Where(e => e.UserId == id)
+                .Sum(e => e.Amount);
+
+            // Pasar los valores a la vista a través de ViewData
+            ViewData["TotalIncome"] = totalIncome;
+            ViewData["TotalExpenses"] = totalExpenses;
 
             return View(user);
         }
@@ -151,8 +166,8 @@ namespace FinancialManagementSystem1.Controllers
         [HttpPost]
         public IActionResult Logout()
         {
-            HttpContext.Session.Clear(); // Cerrar la sesión
-            return RedirectToAction("Index", "Home");
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login", "Home");
         }
 
         public IActionResult Privacy()

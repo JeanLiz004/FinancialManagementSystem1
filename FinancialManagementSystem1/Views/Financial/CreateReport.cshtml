@@ -1,0 +1,32 @@
+﻿@model FinancialManagementSystem1.Models.Report
+
+@{
+    ViewData["Title"] = "Crear Reporte";
+}
+
+<h2>Crear Reporte</h2>
+
+<form asp-action="CreateReport" method="post">
+    <div class="form-group">
+        <label asp-for="ReportDate" class="control-label"></label>
+        <input asp-for="ReportDate" class="form-control" type="date" required />
+        <span asp-validation-for="ReportDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="TotalIncome" class="control-label"></label>
+        <input asp-for="TotalIncome" class="form-control" readonly />
+        <span asp-validation-for="TotalIncome" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="TotalExpenses" class="control-label"></label>
+        <input asp-for="TotalExpenses" class="form-control" readonly />
+        <span asp-validation-for="TotalExpenses" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="NetProfit" class="control-label"></label>
+        <input asp-for="NetProfit" class="form-control" readonly />
+        <span asp-validation-for="NetProfit" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Crear Reporte</button>
+    <a asp-action="Report" class="btn btn-secondary">Cancelar</a>
+</form>

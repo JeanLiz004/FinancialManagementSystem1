@@ -1,0 +1,23 @@
+﻿@model FinancialManagementSystem1.Models.Income
+
+<h2>Agregar Ingreso</h2>
+
+<form asp-action="CreateIncome" method="post">
+    <div class="form-group">
+        <label for="Source">Fuente</label>
+        <input asp-for="Source" class="form-control" />
+        <span asp-validation-for="Source" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="Amount">Monto</label>
+        <input asp-for="Amount" class="form-control" />
+        <span asp-validation-for="Amount" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="Date">Fecha</label>
+        <input asp-for="Date" class="form-control" />
+        <span asp-validation-for="Date" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+</form>

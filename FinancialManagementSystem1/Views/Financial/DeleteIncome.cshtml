@@ -1,0 +1,19 @@
+﻿@model FinancialManagementSystem1.Models.Income
+
+@{
+    ViewData["Title"] = "Eliminar Ingreso";
+}
+
+<h2>¿Estás seguro de que deseas eliminar este ingreso?</h2>
+
+<div>
+    <h4>@Model.Source</h4>
+    <p>Monto: @Model.Amount</p>
+    <p>Fecha: @Model.Date.ToString("dd/MM/yyyy")</p>
+
+    <form asp-action="DeleteIncomeConfirmed" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a class="btn btn-secondary" asp-action="Income">Cancelar</a>
+    </form>
+</div>
