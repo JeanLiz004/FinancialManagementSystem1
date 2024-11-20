@@ -90,61 +90,20 @@
             <main>
                 <div class="container-fluid px-4">
 
-                    @model FinancialManagementSystem1.Models.Expense
 
-
-
-                    <ol class="breadcrumb m-4 justify-content-sm-center">
-                        <li class="breadcrumb-item active">Agregar Gasto</li>
+                    <h1 class="mb-4 justify-content-sm-center">Predicción de Flujo de Caja</h1>
+                    <ol class="breadcrumb mb-4 justify-content-sm-center">
+                        <li class="breadcrumb-item active"><h1>Predicción de Flujo de Caja</h1></li>
                     </ol>
 
 
 
-                    <div class="row gx-5 justify-content-center">
-                        <div class="col-lg-6">
-
-                            <form asp-action="CreateExpense" method="post">
-
-                                <div class="form-floating mb-3">
-                                    <input id="Description" name="Description" value="@Model.Description" class="form-control" type="text" placeholder="Ingresa la Descripción" data-sb-validations="required" />
-                                    <label for="Description">Descripción</label>
-                                    <div class="invalid-feedback" data-sb-feedback="name:required">Se requiere la Descripción</div>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input id="Amount" name="Amount" value="@Model.Amount" class="form-control" type="number" placeholder="Ingresa el Monto" data-sb-validations="required" />
-                                    <label for="Amount">Monto</label>
-                                    <div class="invalid-feedback" data-sb-feedback="name:required">Se requiere el Monto</div>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input id="Date" name="Date" value="@Model.Date.ToString("yyyy-MM-dd")" class="form-control" type="date" data-sb-validations="required" />
-                                    <label for="Date">Fecha</label>
-                                    <div class="invalid-feedback" data-sb-feedback="name:required">Se requiere la Fecha</div>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <select class="form-control" id="CategoryId" name="CategoryId" required>
-                                        <option value="">Seleccione una categoría</option>
-                                        @foreach (var category in ViewBag.Categories)
-                                        {
-                                            <option value="@category.Id">@category.Name</option>
-                                        }
-                                    </select>
-                                    <label for="CategoryId">Categoría</label>
-                                    <div class="invalid-feedback" data-sb-feedback="name:required"></div>
-                                </div>
-
-
-
-
-                                <div class="d-grid"><button class="btn btn-primary btn-lg" type="submit">Guardar</button></div>
-                            </form>
-                        </div>
+                    <div class="card m-4">
+                        <p><strong>Predicción de Ingresos Futuros:</strong> @ViewBag.PredictedIncome</p>
+                        <p><strong>Predicción de Gastos Futuros:</strong> @ViewBag.PredictedExpenses</p>
+                        <p><strong>Flujo de Caja Neto Futuro:</strong> @ViewBag.PredictedNetCashFlow</p>
                     </div>
-
-                </div>
-
+                    </div>>
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">

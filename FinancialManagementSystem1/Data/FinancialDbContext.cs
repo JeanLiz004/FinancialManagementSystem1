@@ -16,7 +16,7 @@ namespace FinancialManagementSystem1.Data
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<Budget> Budgets { get; set; }
         public DbSet<Report> Reports { get; set; }
-
+        public DbSet<Opinion> Opinions { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Configuración de relaciones User - Role
@@ -60,6 +60,12 @@ namespace FinancialManagementSystem1.Data
                 .WithMany(u => u.Reports)
                 .HasForeignKey(r => r.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Opinion>()
+                .HasOne(o => o.User)
+                .WithMany(u => u.Opinions)
+                .HasForeignKey(o => o.UserId)
+                .OnDelete(DeleteBehavior.Cascade); // Elimina opiniones al borrar el usuario
 
             // Configurar decimal con precisión y escala para evitar truncamientos.
 

@@ -18,5 +18,8 @@ namespace FinancialManagementSystem1.Models
         public ICollection<Expense> Expenses { get; set; }
         public ICollection<Budget> Budgets { get; set; }
         public ICollection<Report> Reports { get; set; }
+
+        // Relación con la clase Opinion
+        public ICollection<Opinion> Opinions { get; set; }
     }
 }

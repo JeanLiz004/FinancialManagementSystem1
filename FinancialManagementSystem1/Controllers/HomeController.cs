@@ -127,24 +127,30 @@ namespace FinancialManagementSystem1.Controllers
 
 
         [HttpGet]
-        public IActionResult Profile(int id)
+        public IActionResult Profile()
         {
-            var user = _context.Users.FirstOrDefault(u => u.Id == id);
+
+            // Obtener el UserId desde la sesión
+            var userIdString = HttpContext.Session.GetString("UserId");
+            if (string.IsNullOrEmpty(userIdString))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            int userId = int.Parse(userIdString);
+
+            // Buscar al usuario por ID
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             if (user == null)
             {
                 return NotFound();
             }
 
-            // Calcular el total de ingresos y gastos del usuario
-            var totalIncome = _context.Incomes
-                .Where(i => i.UserId == id)
-                .Sum(i => i.Amount);
+            // Calcular el total de ingresos y gastos
+            var totalIncome = _context.Incomes.Where(i => i.UserId == userId).Sum(i => i.Amount);
+            var totalExpenses = _context.Expenses.Where(e => e.UserId == userId).Sum(e => e.Amount);
 
-            var totalExpenses = _context.Expenses
-                .Where(e => e.UserId == id)
-                .Sum(e => e.Amount);
-
-            // Pasar los valores a la vista a través de ViewData
+            // Pasar datos a la vista
             ViewData["TotalIncome"] = totalIncome;
             ViewData["TotalExpenses"] = totalExpenses;
 

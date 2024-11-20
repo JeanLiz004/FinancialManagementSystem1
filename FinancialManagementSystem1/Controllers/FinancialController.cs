@@ -38,6 +38,13 @@ namespace FinancialManagementSystem1.Controllers
                 // Buscar los ingresos del usuario logueado
                 var incomes = _context.Incomes.Where(i => i.UserId == userId).ToList();
 
+                // Obtener el nombre del usuario logueado
+                var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+                if (user != null)
+                {
+                    ViewData["Username"] = user.Username; // Pasar el nombre del usuario a la vista
+                }
+
                 return View(incomes);
             }
             catch (Exception ex)
@@ -102,6 +109,8 @@ namespace FinancialManagementSystem1.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
+            int userId = int.Parse(userIdString);
+
             // Buscar el ingreso por ID
             var income = _context.Incomes.FirstOrDefault(i => i.Id == id);
 
@@ -109,6 +118,16 @@ namespace FinancialManagementSystem1.Controllers
             {
                 return NotFound();
             }
+
+            // Buscar el nombre del usuario logueado
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            // Pasar el nombre del usuario a la vista a través de ViewData
+            ViewData["UserName"] = user.Username;
 
             return View(income);
         }
@@ -160,6 +179,8 @@ namespace FinancialManagementSystem1.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
+            int userId = int.Parse(userIdString);
+
             // Buscar el ingreso por ID
             var income = _context.Incomes.FirstOrDefault(i => i.Id == id);
 
@@ -167,6 +188,17 @@ namespace FinancialManagementSystem1.Controllers
             {
                 return NotFound();
             }
+
+            // Buscar el nombre del usuario logueado
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            // Pasar el nombre del usuario a la vista a través de ViewData
+            ViewData["UserName"] = user.Username;
+
 
             return View(income);
         }
@@ -221,6 +253,13 @@ namespace FinancialManagementSystem1.Controllers
                                        .Include(e => e.Category) // Eager Loading de Category
                                        .ToList();
 
+                // Obtener el nombre del usuario logueado
+                var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+                if (user != null)
+                {
+                    ViewData["Username"] = user.Username; // Pasar el nombre del usuario a la vista
+                }
+
                 return View(expenses);
             }
             catch (Exception ex)
@@ -244,12 +283,14 @@ namespace FinancialManagementSystem1.Controllers
             // Cargar las categorías desde la base de datos
             ViewBag.Categories = _context.Categories.ToList();
 
+
+
             var model = new Expense();
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateExpense(Expense model)
+        public IActionResult CreateExpense(Expense model)
         {
             // Verificar si el usuario está logueado
             var userIdString = HttpContext.Session.GetString("UserId");
@@ -303,6 +344,16 @@ namespace FinancialManagementSystem1.Controllers
 
                 // Cargar todas las categorías para el dropdown de selección en la vista
                 ViewBag.Categories = _context.Categories.ToList();
+
+                // Buscar el nombre del usuario logueado
+                var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+                if (user == null)
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                // Pasar el nombre del usuario a la vista a través de ViewData
+                ViewData["UserName"] = user.Username;
 
                 return View(expense);
             }
@@ -385,6 +436,15 @@ namespace FinancialManagementSystem1.Controllers
                     return NotFound();
                 }
 
+                // Buscar el nombre del usuario logueado
+                var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+                if (user == null)
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                // Pasar el nombre del usuario a la vista a través de ViewData
+                ViewData["UserName"] = user.Username;
                 // Pasar el gasto a la vista para confirmación
                 return View(expense);
             }
@@ -453,6 +513,13 @@ namespace FinancialManagementSystem1.Controllers
 
                 // Obtener los presupuestos del usuario logueado
                 var budgets = _context.Budgets.Where(b => b.UserId == userId).ToList();
+
+                // Obtener el nombre del usuario logueado
+                var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+                if (user != null)
+                {
+                    ViewData["Username"] = user.Username; // Pasar el nombre del usuario a la vista
+                }
 
                 return View(budgets);
             }
@@ -524,6 +591,16 @@ namespace FinancialManagementSystem1.Controllers
                 return NotFound();
             }
 
+            // Buscar el nombre del usuario logueado
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            // Pasar el nombre del usuario a la vista a través de ViewData
+            ViewData["UserName"] = user.Username;
+
             return View(budget);
         }
 
@@ -574,6 +651,8 @@ namespace FinancialManagementSystem1.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
+            int userId = int.Parse(userIdString);
+
             // Buscar el presupuesto por su ID
             var budget = _context.Budgets.FirstOrDefault(b => b.Id == id);
 
@@ -582,6 +661,16 @@ namespace FinancialManagementSystem1.Controllers
                 // Si el presupuesto no existe o no pertenece al usuario logueado
                 return NotFound();
             }
+
+            // Buscar el nombre del usuario logueado
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            // Pasar el nombre del usuario a la vista a través de ViewData
+            ViewData["UserName"] = user.Username;
 
             return View(budget); // Mostrar la vista de confirmación
         }
@@ -635,6 +724,15 @@ namespace FinancialManagementSystem1.Controllers
 
             // Obtener los reportes del usuario logueado
             var reports = _context.Reports.Where(r => r.UserId == userId).ToList();
+
+            // Obtener el nombre del usuario logueado
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            if (user != null)
+            {
+                ViewData["Username"] = user.Username; // Pasar el nombre del usuario a la vista
+            }
+
+
 
             return View(reports);
         }
@@ -708,6 +806,8 @@ namespace FinancialManagementSystem1.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
+            int userId = int.Parse(userIdString);
+
             // Buscar el ingreso por ID
             var report = _context.Reports.FirstOrDefault(i => i.Id == id);
 
@@ -715,6 +815,16 @@ namespace FinancialManagementSystem1.Controllers
             {
                 return NotFound();
             }
+
+            // Buscar el nombre del usuario logueado
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            // Pasar el nombre del usuario a la vista a través de ViewData
+            ViewData["UserName"] = user.Username;
 
             return View(report);
         }
@@ -765,6 +875,8 @@ namespace FinancialManagementSystem1.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
+            int userId = int.Parse(userIdString);
+
             // Buscar el ingreso por ID
             var report = _context.Reports.FirstOrDefault(i => i.Id == id);
 
@@ -772,6 +884,16 @@ namespace FinancialManagementSystem1.Controllers
             {
                 return NotFound();
             }
+
+            // Buscar el nombre del usuario logueado
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            // Pasar el nombre del usuario a la vista a través de ViewData
+            ViewData["UserName"] = user.Username;
 
             return View(report);
         }
