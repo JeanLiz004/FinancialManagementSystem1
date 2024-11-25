@@ -63,8 +63,22 @@ namespace FinancialManagementSystem1.Controllers
             // Guardar el UserId en la sesión
             HttpContext.Session.SetString("UserId", user.Id.ToString());
             HttpContext.Session.SetString("Username", user.Username);
+            HttpContext.Session.SetString("RoleId", user.RoleId.ToString());
 
-            return RedirectToAction("Profile", new { id = user.Id });
+            // Redirigir según el rol
+            if (user.RoleId == 1) // Administrador
+            {
+                return RedirectToAction("AdminDashboard", "Admin");
+            }
+            else if (user.RoleId == 2) // Usuario regular
+            {
+                return RedirectToAction("Profile", new { id = user.Id });
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Rol de usuario no reconocido.");
+                return View();
+            }
         }
 
 
@@ -185,6 +199,47 @@ namespace FinancialManagementSystem1.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpGet]
+        public IActionResult CreateOpinion()
+        { // Verificar si el usuario está logueado
+            var userIdString = HttpContext.Session.GetString("UserId");
+
+            if (string.IsNullOrEmpty(userIdString))
+            {
+                // Si no hay usuario logueado, redirige a la página de login
+                return RedirectToAction("Login", "Home");
+            }
+
+            return View();
+        }
+
+        // Acción para procesar la opinión enviada por el usuario
+        [HttpPost]
+        public IActionResult CreateOpinion(Opinion model)
+        {
+            // Verificar si el usuario está logueado
+            var userIdString = HttpContext.Session.GetString("UserId");
+
+            if (string.IsNullOrEmpty(userIdString))
+            {
+                // Si no hay usuario logueado, redirige a la página de login
+                return RedirectToAction("Login", "Home");
+            }
+
+            // Obtener el UserId de la sesión
+            int userId = int.Parse(userIdString);
+
+            // Asignar el UserId al nuevo ingreso
+            model.UserId = userId;
+
+            // Guardar el nuevo ingreso en la base de datos
+            _context.Opinions.Add(model);
+            _context.SaveChanges();
+
+            // Redirigir de nuevo a la vista de Ingresos
+            return RedirectToAction("Profile");
         }
     }
 }

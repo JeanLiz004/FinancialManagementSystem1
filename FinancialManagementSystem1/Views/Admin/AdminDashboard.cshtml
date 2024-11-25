@@ -1,4 +1,6 @@
-﻿@{
+﻿
+
+@{
     Layout = null;
 }
 
@@ -16,8 +18,12 @@
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 <body class="sb-nav-fixed">
+    @model FinancialManagementSystem1.Models.User
 
-
+    @{
+        var userId = Context.Session.GetString("UserId");
+    }
+  
 
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
@@ -38,7 +44,7 @@
                     <li><a class="dropdown-item" href="#!">Registro de actividades</a></li>
                     <li><hr class="dropdown-divider" /></li>
                     <li>
-                        <form asp-action="Logout" asp-controller="Home" method="post">
+                        <form asp-action="Logout" method="post">
                             <button type="submit" class="dropdown-item">Cerrar Sesión</button>
                         </form>
                     </li>
@@ -52,86 +58,70 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">Resumen</div>
-                        <a class="nav-link" asp-action="Profile" asp-controller="Home">
+                        <a class="nav-link" href="@Url.Action("AdminDashboard", "Admin")">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
                         <div class="sb-sidenav-menu-heading">Funcionalidades Claves</div>
-                        <a class="nav-link" asp-controller="Financial" asp-action="Income">
+                        <a class="nav-link" asp-controller="Admin" asp-action="UserList">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-money-bill"></i></div>
-                            Ingresos
+                            Usuarios
                         </a>
-                        <a class="nav-link" href="@Url.Action("Expense", "Financial")">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                            Gastos
+                        <a class="nav-link" href="@Url.Action("RegisterAdmin", "Admin")">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-money-bill"></i></div>
+                            Crear usuario de admin
                         </a>
-                        <a class="nav-link" href="@Url.Action("Budget", "Financial")">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-coins"></i></div>
-                            Presupuestos
-                        </a>
-                        <a class="nav-link" href="@Url.Action("Report", "Financial")">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-table-list"></i></div>
-                            Reportes
-                        </a>
-                        <a class="nav-link" asp-controller="Prediction" asp-action="CashFlowPrediction">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-compass"></i></div>
-                            Predicción de Flujo de Caja
-                        </a>
-                        <div class="sb-sidenav-menu-heading">Di tu experiencia sobre nuestro sistema.</div>
-                        <a class="nav-link" href="@Url.Action("CreateOpinion", "Home")">
+                       
+                        <div class="sb-sidenav-menu-heading">Experiencia de los usuarios.</div>
+                        <a class="nav-link" href="@Url.Action("UserOpinions", "Admin")">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Envia tu feedback
+                           Ver feedback
                         </a>
 
                         <div class="sb-sidenav-footer">
                             <div class="small">Iniciado como:</div>
-                            @ViewData["Username"]
-
+                            @Model.Username
+                           
 
                         </div>
+                     </div>
+                </div>
+                    
+                    
             </nav>
         </div>
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-
-                    @model FinancialManagementSystem1.Models.Report
-
-
-
-
-
-                    <div class="text-center mb-5">
-                        <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-envelope"></i></div>
-                        <h3 class="fw-bolder">¿Estás seguro de que deseas eliminar este reporte?</h3>
-
-                    </div>
-
-
-
-                    <div class="row gx-5 justify-content-center">
-                        <div class="col-lg-6">
-                            <p>Fecha: @Model.ReportDate.ToString("dd/MM/yyyy")</p>
-                            <p>Monto: @Model.TotalIncome</p>
-                            <p>Monto: @Model.TotalExpenses</p>
-                            <p>Monto: @Model.NetProfit</p>
-
-
-                            <form asp-action="DeleteReportConfirmed" method="post">
-
-
-
-
-
-                                <input type="hidden" asp-for="Id" />
-                                <div class="d-grid"><button class="btn btn-primary btn-lg" type="submit">Eliminar</button></div>
-                                <div class="d-grid mt-3"><a asp-action="Report" class="btn btn-secondary btn-lg">Cancelar</a></div>
-                            </form>
+                    <h1 class="mt-4">Dashboard</h1>
+                    <ol class="breadcrumb mb-4">
+                        <li class="breadcrumb-item active">Resumen</li>
+                    </ol>
+                    <h1 class="text-center">Bienvenido al Dashboard de Administrador</h1>
+                    <p class="text-center">Aquí puedes gestionar el sistema como administrador.</p>
+                  
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-chart-area me-1"></i>
+                                    Usuarios
+                                </div>
+                                <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-chart-bar me-1"></i>
+                                    Opiniones
+                                </div>
+                                <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                            </div>
                         </div>
                     </div>
 
                 </div>
-
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">

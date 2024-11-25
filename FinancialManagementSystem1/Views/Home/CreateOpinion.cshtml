@@ -95,37 +95,30 @@
             <main>
                 <div class="container-fluid px-4">
 
-                    @model FinancialManagementSystem1.Models.Report
+                    @model FinancialManagementSystem1.Models.Opinion
 
 
 
 
-
-                    <div class="text-center mb-5">
-                        <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-envelope"></i></div>
-                        <h3 class="fw-bolder">¿Estás seguro de que deseas eliminar este reporte?</h3>
-
-                    </div>
+                    <ol class="breadcrumb m-4 justify-content-sm-center">
+                        <li class="breadcrumb-item active">Dinos tu opinión</li>
+                    </ol>
 
 
 
                     <div class="row gx-5 justify-content-center">
                         <div class="col-lg-6">
-                            <p>Fecha: @Model.ReportDate.ToString("dd/MM/yyyy")</p>
-                            <p>Monto: @Model.TotalIncome</p>
-                            <p>Monto: @Model.TotalExpenses</p>
-                            <p>Monto: @Model.NetProfit</p>
 
+                            <form asp-action="CreateOpinion" method="post">
 
-                            <form asp-action="DeleteReportConfirmed" method="post">
+                                <div class="form-floating mb-3">
+                                    <textarea asp-for="Content" class="form-control" id="Content" rows="5" required></textarea>
+                                    <label for="Source">Di tu opinión</label>
+                                    <div class="invalid-feedback" data-sb-feedback="name:required">Se requiere tu opinión</div>
+                                </div>
 
-
-
-
-
-                                <input type="hidden" asp-for="Id" />
-                                <div class="d-grid"><button class="btn btn-primary btn-lg" type="submit">Eliminar</button></div>
-                                <div class="d-grid mt-3"><a asp-action="Report" class="btn btn-secondary btn-lg">Cancelar</a></div>
+                               
+                                <div class="d-grid"><button class="btn btn-primary btn-lg" type="submit">Enviar</button></div>
                             </form>
                         </div>
                     </div>

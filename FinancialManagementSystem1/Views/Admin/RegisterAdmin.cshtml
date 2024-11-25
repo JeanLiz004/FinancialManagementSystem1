@@ -1,0 +1,95 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>@ViewData["Title"] - FinancialManagementSystem1</title>
+    <link rel="stylesheet" href="~/css/styles1.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/FinancialManagementSystem1.styles1.css" asp-append-version="true" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+<body class="bg-primary">
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-7">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header">
+                                    <h3 class="text-center font-weight-light my-4">
+                                        Registro de Admin
+                                    </h3>
+                                </div>
+                                <div class="card-body">
+                                    <form asp-action="RegisterAdmin" method="post">
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+                                                <div class="form-floating mb-3 mb-md-0">
+
+                                                    <input type="text" class="form-control" id="Username" name="Username" required />
+                                                    <label for="Username">Nombre de Usuario</label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-floating mb-3">
+
+                                            <input type="email" class="form-control" id="Email" name="Email" required />
+                                            <label for="Email">Correo Electrónico</label>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3 mb-md-0">
+
+                                                    <input type="password" class="form-control" id="Password" name="Password" required />
+                                                    <label for="Password">Contraseña</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3 mb-md-0">
+
+                                                    <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword" required />
+                                                    <label for="ConfirmPassword">Confirmar Contraseña</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4 mb-0">
+                                            <div class="d-grid"><button type="submit" class="btn btn-primary">Registrarse</button></div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="card-footer text-center py-3">
+                                    <div class="small"><a href="@Url.Action("Login", "Home")">¿Ya tienes una cuenta? Inicia sesión</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+        <div class="mt-2" id="layoutAuthentication_footer">
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; Sistema de gestión financiera 2024</div>
+                        <div>
+                            <a href="#">Política de privacidad</a>
+                            &middot;
+                            <a href="#">Términos &amp; Condiciones</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/scripts1.js" asp-append-version="true"></script>
+
+</body>
+</html>
