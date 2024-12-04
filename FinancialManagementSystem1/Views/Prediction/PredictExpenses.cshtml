@@ -21,7 +21,7 @@
 
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" asp-controller="Home" asp-action="Index">Sistema de gestión financiera</a>
+        <a class="navbar-brand ps-3" asp-controller="Home" asp-action="Index">FinanzasConectadas</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         <!-- Navbar Search-->
@@ -73,42 +73,71 @@
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-table-list"></i></div>
                             Reportes
                         </a>
-                        <a class="nav-link" asp-controller="Prediction" asp-action="CashFlowPrediction">
+                        <a class="nav-link" asp-controller="Prediction" asp-action="PredictExpenses">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-compass"></i></div>
-                            Predicción de Flujo de Caja
+                            Predicción de Ingresos y Gastos
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Dinos tu experiencia.</div>
+                        <a class="nav-link" href="@Url.Action("CreateOpinion", "Home")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Envia tu feedback
                         </a>
 
                         <div class="sb-sidenav-footer">
                             <div class="small">Iniciado como:</div>
-                            @ViewData["Username"]
+                            @ViewBag.UserName
 
 
                         </div>
+                        </div>
+                </div>
             </nav>
         </div>
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
 
+                    
 
-                    <h1 class="mb-4 justify-content-sm-center">Predicción de Flujo de Caja</h1>
-                    <ol class="breadcrumb mb-4 justify-content-sm-center">
-                        <li class="breadcrumb-item active"><h1>Predicción de Flujo de Caja</h1></li>
+
+
+
+                    <ol class="breadcrumb m-4 justify-content-sm-center">
+                        <li class="breadcrumb-item active">Predicción de Ingresos y Gastos</li>
                     </ol>
 
+                   
+
+                    <div class="card m-2">
+                        @model FinancialManagementSystem1.ViewModels.PredictionResultViewModel
 
 
-                    <div class="card m-4">
-                        <p><strong>Predicción de Ingresos Futuros:</strong> @ViewBag.PredictedIncome</p>
-                        <p><strong>Predicción de Gastos Futuros:</strong> @ViewBag.PredictedExpenses</p>
-                        <p><strong>Flujo de Caja Neto Futuro:</strong> @ViewBag.PredictedNetCashFlow</p>
+   
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            <p><strong>Fecha de Ingreso Predicho:</strong> @Model.PredictedIncomeDate.ToShortDateString()</p>
+            <p><strong>Monto de Ingreso Predicho:</strong> @Model.PredictedIncome.ToString("C")</p>
+
+            <p><strong>Fecha de Gasto Predicho:</strong> @Model.PredictedExpenseDate.ToShortDateString()</p>
+            <p><strong>Monto de Gasto Predicho:</strong> @Model.PredictedExpense.ToString("C")</p>
+        </div>
+    }
+
                     </div>
-                    </div>>
+                    </div>
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Sistema de gestión financiera 2024</div>
+                        <div class="text-muted">Copyright &copy; FinanzasConectadas 2024</div>
                         <div>
                             <a href="#">Política de privacidad</a>
                             &middot;
@@ -135,3 +164,4 @@
 
 </body>
 </html>
+

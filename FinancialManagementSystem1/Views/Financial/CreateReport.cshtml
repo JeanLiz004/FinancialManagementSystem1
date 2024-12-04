@@ -21,7 +21,7 @@
 
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" asp-controller="Home" asp-action="Index">Sistema de gestión financiera</a>
+        <a class="navbar-brand ps-3" asp-controller="Home" asp-action="Index">FinanzasConectadas</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         <!-- Navbar Search-->
@@ -73,11 +73,11 @@
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-table-list"></i></div>
                             Reportes
                         </a>
-                        <a class="nav-link" asp-controller="Prediction" asp-action="CashFlowPrediction">
+                        <a class="nav-link" asp-controller="Prediction" asp-action="PredictExpenses">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-compass"></i></div>
-                            Predicción de Flujo de Caja
+                            Predicción de Ingresos y Gastos
                         </a>
-                        <div class="sb-sidenav-menu-heading">Di tu experiencia sobre nuestro sistema.</div>
+                        <div class="sb-sidenav-menu-heading">Dinos tu experiencia.</div>
                         <a class="nav-link" href="@Url.Action("CreateOpinion", "Home")">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Envia tu feedback
@@ -145,7 +145,7 @@
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Sistema de gestión financiera 2024</div>
+                        <div class="text-muted">Copyright &copy; FinanzasConectadas 2024</div>
                         <div>
                             <a href="#">Política de privacidad</a>
                             &middot;

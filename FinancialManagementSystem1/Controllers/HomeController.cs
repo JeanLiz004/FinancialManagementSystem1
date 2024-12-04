@@ -164,9 +164,39 @@ namespace FinancialManagementSystem1.Controllers
             var totalIncome = _context.Incomes.Where(i => i.UserId == userId).Sum(i => i.Amount);
             var totalExpenses = _context.Expenses.Where(e => e.UserId == userId).Sum(e => e.Amount);
 
+            // Obtener datos de ingresos mensuales
+            var monthlyIncomes = _context.Incomes
+                .Where(i => i.UserId == userId)
+                .AsEnumerable() // Cambia a evaluación en cliente
+                .GroupBy(i => i.Date.ToString("yyyy-MM"))
+                .Select(g => new
+                {
+                    Month = g.Key,
+                    TotalAmount = g.Sum(i => i.Amount)
+                })
+                .OrderBy(x => x.Month)
+                .ToList();
+
+            // Obtener datos de gastos mensuales
+            var monthlyExpenses = _context.Expenses
+                .Where(e => e.UserId == userId)
+                .AsEnumerable() // Cambia a evaluación en cliente
+                .GroupBy(e => e.Date.ToString("yyyy-MM"))
+                .Select(g => new
+                {
+                    Month = g.Key,
+                    TotalAmount = g.Sum(e => e.Amount)
+                })
+                .OrderBy(x => x.Month)
+                .ToList();
+
+
+
             // Pasar datos a la vista
             ViewData["TotalIncome"] = totalIncome;
             ViewData["TotalExpenses"] = totalExpenses;
+            ViewData["MonthlyIncomes"] = monthlyIncomes;
+            ViewData["MonthlyExpenses"] = monthlyExpenses;
 
             return View(user);
         }

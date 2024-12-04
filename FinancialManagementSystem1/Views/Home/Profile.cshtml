@@ -14,8 +14,12 @@
     <link rel="stylesheet" href="~/FinancialManagementSystem1.styles1.css" asp-append-version="true" />
     <link rel="icon" type="image/x-icon" href="~/assets/favicon.ico" asp-append-version="true" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+   
 </head>
 <body class="sb-nav-fixed">
+
+    
     @model FinancialManagementSystem1.Models.User
 
     @{
@@ -24,7 +28,7 @@
 
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" asp-controller="Home" asp-action="Index">Sistema de gestión financiera</a>
+        <a class="navbar-brand ps-3" asp-controller="Home" asp-action="Index">FinanzasConectadas</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         <!-- Navbar Search-->
@@ -77,11 +81,11 @@
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-table-list"></i></div>
                             Reportes
                         </a>
-                        <a class="nav-link" asp-controller="Prediction" asp-action="CashFlowPrediction">
+                        <a class="nav-link" asp-controller="Prediction" asp-action="PredictExpenses">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-compass"></i></div>
-                            Predicción de Flujo de Caja
+                            Predicción de Ingresos y Gastos
                         </a>
-                        <div class="sb-sidenav-menu-heading">Di tu experiencia sobre nuestro sistema.</div>
+                        <div class="sb-sidenav-menu-heading">Dinos tu experiencia.</div>
                         <a class="nav-link" href="@Url.Action("CreateOpinion", "Home")">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Envia tu feedback
@@ -92,6 +96,8 @@
                             @Model.Username
                      
                         </div>
+                    </div>
+                </div>
             </nav>
         </div>
         <div id="layoutSidenav_content">
@@ -139,25 +145,32 @@
                             </div>
                         </div>
                     </div>
+                   
+
                     <div class="row">
+
                         <div class="col-xl-6">
                             <div class="card mb-4">
                                 <div class="card-header">
                                     <i class="fas fa-chart-area me-1"></i>
                                     Ingresos
                                 </div>
-                                <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                                <div class="card-body">
+
+                                    <canvas id="incomeChart" width="400" height="200"></canvas>
+                                </div>
                             </div>
                         </div>
                         <div class="col-xl-6">
                             <div class="card mb-4">
                                 <div class="card-header">
-                                    <i class="fas fa-chart-bar me-1"></i>
+                                    <i class="fas fa-chart-area me-1"></i>
                                     Gastos
                                 </div>
-                                <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                                <div class="card-body"><canvas id="expenseChart" width="400" height="200"></canvas></div>
                             </div>
                         </div>
+
                     </div>
 
                 </div>
@@ -165,7 +178,7 @@
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Sistema de gestión financiera 2024</div>
+                        <div class="text-muted">Copyright &copy; FinanzasConectadas 2024</div>
                         <div>
                             <a href="#">Política de privacidad</a>
                             &middot;
@@ -176,9 +189,100 @@
             </footer>
         </div>
     </div>
-    <!-- Bootstrap core JS-->
 
-    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Convertir datos de ingresos y gastos a formato JavaScript
+        var incomeData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewData["MonthlyIncomes"]));
+        var expenseData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewData["MonthlyExpenses"]));
+
+        // Extraer etiquetas (meses) y valores (ingresos y gastos)
+        var incomeLabels = incomeData.map(item => item.Month);
+        var incomeValues = incomeData.map(item => item.TotalAmount);
+
+        var expenseLabels = expenseData.map(item => item.Month);
+        var expenseValues = expenseData.map(item => item.TotalAmount);
+
+        // Configurar el gráfico de ingresos
+        var incomeCtx = document.getElementById('incomeChart').getContext('2d');
+        var incomeChart = new Chart(incomeCtx, {
+            type: 'line',
+            data: {
+                labels: incomeLabels,
+                datasets: [{
+                    label: 'Ingresos Mensuales',
+                    data: incomeValues,
+                    fill: true,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Meses'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Ingresos ($)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Configurar el gráfico de gastos
+        var expenseCtx = document.getElementById('expenseChart').getContext('2d');
+        var expenseChart = new Chart(expenseCtx, {
+            type: 'line',
+            data: {
+                labels: expenseLabels,
+                datasets: [{
+                    label: 'Gastos Mensuales',
+                    data: expenseValues,
+                    fill: true,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 2,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Meses'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Gastos ($)'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+
+    <!-- Bootstrap core JS-->
+    
+
+    
 
 
 
@@ -187,6 +291,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <script src="~/Assets/demo/chart-area-demo.js"></script>
     <script src="~/Assets/demo/chart-bar-demo.js"></script>
+    
+
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     <script src="~/js/datatables-simple-demo.js"></script>
 
