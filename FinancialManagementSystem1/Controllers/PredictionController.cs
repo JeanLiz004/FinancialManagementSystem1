@@ -75,12 +75,14 @@ namespace FinancialManagementSystem1.Controllers
                 })
                 .ToList();
 
-            // Verificar que haya datos suficientes para ambos
-            if (!expenseData.Any() || !incomeData.Any())
+
+            // Verificar que haya suficientes datos históricos para ambos
+            if (expenseData.Count < 5 || incomeData.Count < 5)
             {
-                ViewBag.ErrorMessage = "No hay datos históricos suficientes para realizar la predicción.";
+                ViewBag.ErrorMessage = "No hay suficientes datos históricos para realizar la predicción.";
                 return View();
             }
+
 
             // Preparar el modelo ML.NET para gastos
             var mlContext = new MLContext();
